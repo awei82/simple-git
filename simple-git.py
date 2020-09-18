@@ -1,7 +1,6 @@
 import git
 import os
-
-os.chdir('../mp4concat')
+import sys
 
 
 # class SimpleGit(object):
@@ -9,18 +8,31 @@ os.chdir('../mp4concat')
 #         repo = repo
 #
 
+g = git.Git()
+
 def simple_commit(repo, files, commit_message):
     repo.index.add(files)
     for f in files:
-        repo.add
-    g.
+        repo.add(f)
+
+
+def check_status():
+    """Runs 'git status' to check if we're in a git repo. Exit if not."""
+    try:
+        g.status()
+    except:
+        print('fatal: Not a git repository (or any of the parent directories): .git', file=sys.stderr)
+        exit(-1)
 
 
 def main():
-    # connect to repo
-    try:
-        repo = git.Repo('.', search_parent_directories=True)
-    except:
-        print('fatal: not a git repository (or any of the parent directories): .git')
-        exit()
+    # check that we're in a git repo - check_status() exits if not.
+    check_status()
+
+
+    print(g.status())
+
+
+if __name__ == "__main__":
+    main()
 
