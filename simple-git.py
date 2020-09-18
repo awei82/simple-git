@@ -5,6 +5,8 @@ import sys
 import logging
 logging.basicConfig(level=logging.INFO)
 
+import argparse
+
 # assume single remote repo
 
 
@@ -32,20 +34,30 @@ def simple_commit(files, commit_message):
     # otherwise, run 'push --set-upstream origin new_branch
     remote_branches = [ref.name.split('origin/')[1] for ref in repo.remote().refs]
 
-    if repo.active_branch.name in remote_branches:
-        try:
-            print(g.push())
-        except:
-            print('push error', file=sys.stderr)
-            exit(-1)
-    else:
-        try:
-            print(g.push('--set-upstream', 'origin', repo.active_branch.name))
-        except:
-            print('push error', file=sys.stderr)
-            exit(-1)
 
-    print(f'simple_commit succeeded commit to branch {repo.active_branch.name}')
+    try:
+        if repo.active_branch.name in remote_branches:
+            print(g.push())
+        else:
+            print(g.push('--set-upstream', 'origin', repo.active_branch.name))
+    except:
+        print('push error', file=sys.stderr)
+        exit(-1)
+
+    # if repo.active_branch.name in remote_branches:
+    #     try:
+    #         print(g.push())
+    #     except:
+    #         print('push error', file=sys.stderr)
+    #         exit(-1)
+    # else:
+    #     try:
+    #         print(g.push('--set-upstream', 'origin', repo.active_branch.name))
+    #     except:
+    #         print('push error', file=sys.stderr)
+    #         exit(-1)
+
+    print(f'"simple_commit" succeeded commit to branch {repo.active_branch.name}')
 
 
 
@@ -73,6 +85,9 @@ def main():
     except:
         print('fatal: not a git repository (or any of the parent directories): .git')
         exit()
+
+    # argparse
+    
 
 
 if __name__ == "__main__":
