@@ -2,6 +2,11 @@ import git
 import os
 import sys
 
+import logging
+logging.basicConfig(level=logging.INFO)
+
+# assume single remote repo
+
 
 # class SimpleGit(object):
 #     def __init__(self, repo):
@@ -24,12 +29,21 @@ def simple_commit(files, commit_message):
 
     # push
     # if branch exists at origin, just push
-    # otherwise, run 'push -u origin new_branch
-    try:
-        print(g.push())
-    except:
-        print('push error', file=sys.stderr)
-        exit(-1)
+    # otherwise, run 'push --set-upstream origin new_branch
+    remote_branches = [ref.name.split('origin/')[1] for ref in repo.remote().refs]
+
+    if repo.active_branch.name in remote_branches:
+        try:
+            print(g.push())
+        except:
+            print('push error', file=sys.stderr)
+            exit(-1)
+    else:
+        try:
+            print(g.push('--set-upstream', 'origin', repo.active_branch.name))
+        except:
+            print('push error', file=sys.stderr)
+            exit(-1)
 
     print(f'simple_commit succeeded commit to branch {repo.active_branch.name}')
 
