@@ -10,10 +10,12 @@ import sys
 
 g = git.Git()
 
-def simple_commit(repo, files, commit_message):
-    repo.index.add(files)
+def simple_commit(files, commit_message):
     for f in files:
-        repo.add(f)
+        g.add(f)
+    g.commit(message=commit_message)
+    g.push()
+    
 
 
 def check_status():
