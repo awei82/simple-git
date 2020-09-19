@@ -60,6 +60,8 @@ def main():
         print('fatal: not a git repository (or any of the parent directories): .git')
         exit()
 
+    print('test')
+
 
 if __name__ == "__main__":
     main()
