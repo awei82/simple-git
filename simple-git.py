@@ -3,10 +3,10 @@ import os
 import sys
 
 
-# class SimpleGit(object):
-#     def __init__(self, repo):
-#         repo = repo
-#
+class SimpleGit(object):
+    def __init__(self, repo):
+        repo = repo
+
 
 g = git.Git()
 
